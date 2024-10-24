@@ -6,7 +6,7 @@
 /*   By: dchellen <dchellen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:21:09 by david_chell       #+#    #+#             */
-/*   Updated: 2024/10/24 17:27:53 by dchellen         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:37:24 by dchellen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,18 +99,18 @@ char	*get_next_line(int fd)
 	return (new);
 }
 
-int	main(void)
-{
-	int		fd;
-	char	*line;
+// int	main(void)
+// {
+// 	int		fd;
+// 	char	*line;
 
-	fd = open("alpha.txt", O_RDONLY);
-	if (fd == -1)
-		return (1);
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		printf("%s", line);
-		free(line);
-	}
-	close(fd);
-}
+// 	fd = open("alpha.txt", O_RDONLY);
+// 	if (fd == -1)
+// 		return (1);
+// 	while ((line = get_next_line(fd)) != NULL)
+// 	{
+// 		printf("%s", line);
+// 		free(line);
+// 	}
+// 	close(fd);
+// }
