@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dchellen <dchellen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:21:09 by david_chell       #+#    #+#             */
-/*   Updated: 2024/10/24 17:27:53 by dchellen         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:00:51 by dchellen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*clean_line(char *box)
 {
@@ -72,7 +72,7 @@ static char	*rest_of_line(char *box, char *temp)
 
 char	*get_next_line(int fd)
 {
-	static char	*box;
+	static char	*box[1024];
 	char		*new;
 	char		*temp;
 	char		buf[BUFFER_SIZE + 1];
@@ -81,15 +81,15 @@ char	*get_next_line(int fd)
 	temp = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 	{
-		free(box);
-		box = NULL;
+		free(box[fd]);
+		box[fd] = NULL;
 		return (NULL);
 	}
-	box = read_file(fd, buf, box, temp);
-	if (box != NULL)
+	box[fd] = read_file(fd, buf, box[fd], temp);
+	if (box[fd] != NULL)
 	{
-		new = clean_line(box);
-		box = rest_of_line(box, temp);
+		new = clean_line(box[fd]);
+		box[fd] = rest_of_line(box[fd], temp);
 		if (new[0] == '\0' || new == NULL)
 		{
 			free (new);
@@ -97,20 +97,4 @@ char	*get_next_line(int fd)
 		}
 	}
 	return (new);
-}
-
-int	main(void)
-{
-	int		fd;
-	char	*line;
-
-	fd = open("alpha.txt", O_RDONLY);
-	if (fd == -1)
-		return (1);
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		printf("%s", line);
-		free(line);
-	}
-	close(fd);
 }
